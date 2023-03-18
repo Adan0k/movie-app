@@ -1,0 +1,29 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #22254b;
+}
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7vh;
+  background-color: #373b69;
+  margin-bottom: 2%;
+}
+input {
+  border-radius: 6px;
+  border-style: none;
+  height: 2vh;
+  background-color: #22254b;
+  outline-style: none;
+  padding: 10px;
+}
+main {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  height: fit-content;
+}
