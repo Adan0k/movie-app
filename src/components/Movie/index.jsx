@@ -9,21 +9,25 @@ const Container = styled.div`
   min-height: 100%;
   border-radius: 10px;
   position: relative;
-  padding: 10px;
   background-color: #373b69;
-  & div {
+  box-sizing: border-box;
+
+  overflow: hidden;
+  & img {
     width: 100%;
-    overflow: hidden;
-    & img {
-      width: 100%;
-    }
+    height: 100%;
+  }
+  & .imgLayer {
+    width: 100%;
   }
 `;
 const Info = styled.div`
   display: flex;
-  justify-content: space-between;
-
-  padding: 5% 10% 5% 10%;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 10%;
+  height: 30%;
 
   & span {
     color: ${(props) => (props.rate >= 7 ? "red" : "green")};
@@ -63,7 +67,7 @@ const Movie = ({ img, name, rating, rank, crew }) => {
       onMouseOut={() => closeDrawer(setDrawerVisibility)}
     >
       <Container rate={rating}>
-        <div>
+        <div className="imgLayer">
           <img src={img} />
         </div>
         <Info>
