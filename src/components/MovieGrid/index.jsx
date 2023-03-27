@@ -11,7 +11,7 @@ const Grid = styled.div`
   margin: 0 0 5% 5%;
 `;
 
-const MovieGrid = () => {
+const MovieGrid = ({ displayed }) => {
   const movies = useContext(movieContext);
   return (
     <Grid>
@@ -22,6 +22,10 @@ const MovieGrid = () => {
           rating={e.imDbRating}
           rank={e.rank}
           crew={e.crew}
+          gross={e.gross}
+          weekend={e.weekend}
+          weeks={e.weeks}
+          box={displayed === "box"}
         />
       ))}
     </Grid>

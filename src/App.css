@@ -12,6 +12,7 @@ header {
   height: 7vh;
   background-color: #373b69;
   margin-bottom: 2%;
+  position: relative;
 }
 input {
   border-radius: 6px;

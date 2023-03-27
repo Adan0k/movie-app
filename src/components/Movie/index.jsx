@@ -30,7 +30,7 @@ const Info = styled.div`
   height: 30%;
 
   & span {
-    color: ${(props) => (props.rate >= 7 ? "red" : "green")};
+    color: ${(props) => (props.rate)};
   }
   & h3 {
     max-width: 50%;
@@ -55,36 +55,71 @@ const InfoDrawer = styled.div`
   & ul {
     list-style: none;
     height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & li {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      text-align: left;
+      width: 80%;
+      margin: 10px 0 1px 0;
+    }
   }
 `;
 
-const Movie = ({ img, name, rating, rank, crew }) => {
+const Movie = ({ img, name, rating, rank, crew, gross, weekend, weeks, box }) => {
   const [drawerVisibility, setDrawerVisibility] = useState({});
   useEffect(() => closeDrawer(setDrawerVisibility), []);
+
+  console.log(box);
+
+  let InfoDrawerContent = <ul>
+    <li>
+      <span>Rank: </span>
+      <span>{rank}</span>
+    </li>
+    <li>
+      <span>gross: </span>
+      <p>{gross}</p>
+    </li>
+    <li>
+      <span>weekend: </span>
+      <p>{weekend}</p>
+    </li>
+    <li>
+      <span>weeks: </span>
+      <p>{weeks}</p>
+    </li>
+  </ul>;
+  if (!box) {
+    InfoDrawerContent = <ul>
+      <li>
+        <span>Rank: </span>
+        <span>{rank}</span>
+      </li>
+      <li>
+        <span>Crew: </span>
+        <p>{crew}</p>
+      </li>
+    </ul>
+  }
   return (
     <div
       onMouseOver={() => openDrawer(setDrawerVisibility)}
       onMouseOut={() => closeDrawer(setDrawerVisibility)}
     >
-      <Container rate={rating}>
+      <Container>
         <div className="imgLayer">
           <img src={img} />
         </div>
-        <Info>
+        <Info rate={rateColor(rating)}>
           <h3>{name}</h3>
           <span>{rating}</span>
         </Info>
         <InfoDrawer visibility={drawerVisibility}>
-          <ul>
-            <li>
-              <span>Rank: </span>
-              <span>{rank}</span>
-            </li>
-            <li>
-              <span>Crew: </span>
-              <p>{crew}</p>
-            </li>
-          </ul>
+          {InfoDrawerContent}
         </InfoDrawer>
       </Container>
     </div>
@@ -103,5 +138,14 @@ const closeDrawer = (set) => {
     heigth: "0",
   });
 };
+const rateColor = (rate) => {
+  if (rate >= 7) {
+    return "green"
+  }
+  else if (3 < rate < 7) {
+    return "yellow"
+  }
+  return "red"
+}
 
 export default Movie;
