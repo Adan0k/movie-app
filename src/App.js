@@ -3,6 +3,7 @@ import Search from './components/Search';
 import './App.css';
 import MovieGrid from './components/MovieGrid';
 import ComingBtn from './components/ComingBtn';
+import Details from "./components/Details";
 
 export const movieContext = createContext(null);
 
@@ -11,6 +12,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [box, setBox] = useState([]);
   const [displayed, setDisplayed] = useState("top");
+  const [current, setCurrent] = useState("");
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
@@ -23,7 +25,6 @@ function App() {
     box: box
   }
 
-  console.log(movieLists[displayed]);
 
   return (
     <div className="App">
@@ -33,21 +34,24 @@ function App() {
         </movieContext.Provider>
         <Search set={setFilter} />
       </header>
-      <movieContext.Provider value={filterMovies(movieLists[displayed], filter)}>
-        <MovieGrid displayed={displayed} />
+      <movieContext.Provider value={{ current: current, setCurrent: setCurrent }}>
+        <Details />
+      </movieContext.Provider>
+      <movieContext.Provider value={{ movies: filterMovies(movieLists[displayed], filter), displayed: displayed, setCurrent: setCurrent }}>
+        <MovieGrid />
       </movieContext.Provider>
     </div>
   );
 }
 
 const getMovies = (set) => {
-  fetch("https://imdb-api.com/en/API/Top250Movies/k_4ut5ce61")
+  fetch("https://imdb-api.com/en/API/Top250Movies/k_zg2hsr14")
     .then((response) => response.json())
     .then(data => set(data.items))
     .catch((err) => console.log(err));
 }
 const getBox = (set) => {
-  fetch("https://imdb-api.com/en/API/BoxOffice/k_4ut5ce61")
+  fetch("https://imdb-api.com/en/API/BoxOffice/k_zg2hsr14")
     .then((response) => response.json())
     .then(data => set(data.items))
     .catch((err) => console.log(err));

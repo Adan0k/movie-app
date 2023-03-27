@@ -11,8 +11,8 @@ const Grid = styled.div`
   margin: 0 0 5% 5%;
 `;
 
-const MovieGrid = ({ displayed }) => {
-  const movies = useContext(movieContext);
+const MovieGrid = () => {
+  const { movies, displayed, setCurrent } = useContext(movieContext);
   return (
     <Grid>
       {movies.map((e) => (
@@ -26,6 +26,7 @@ const MovieGrid = ({ displayed }) => {
           weekend={e.weekend}
           weeks={e.weeks}
           box={displayed === "box"}
+          onClick={() => setCurrent(e.id)}
         />
       ))}
     </Grid>

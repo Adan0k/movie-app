@@ -69,7 +69,7 @@ const InfoDrawer = styled.div`
   }
 `;
 
-const Movie = ({ img, name, rating, rank, crew, gross, weekend, weeks, box }) => {
+const Movie = ({ img, name, rating, rank, crew, gross, weekend, weeks, box, onClick }) => {
   const [drawerVisibility, setDrawerVisibility] = useState({});
   useEffect(() => closeDrawer(setDrawerVisibility), []);
 
@@ -109,6 +109,7 @@ const Movie = ({ img, name, rating, rank, crew, gross, weekend, weeks, box }) =>
     <div
       onMouseOver={() => openDrawer(setDrawerVisibility)}
       onMouseOut={() => closeDrawer(setDrawerVisibility)}
+      onClick={onClick}
     >
       <Container>
         <div className="imgLayer">
@@ -122,7 +123,7 @@ const Movie = ({ img, name, rating, rank, crew, gross, weekend, weeks, box }) =>
           {InfoDrawerContent}
         </InfoDrawer>
       </Container>
-    </div>
+    </div >
   );
 };
 
