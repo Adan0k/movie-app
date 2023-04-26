@@ -1,9 +1,10 @@
 import React, { useState, createContext, useEffect } from 'react';
-import Search from './components/Search';
-import './App.css';
-import MovieGrid from './components/MovieGrid';
-import ComingBtn from './components/ComingBtn';
-import Details from "./components/Details";
+import Home from "./Pages/Home"
+import { Routes, Route, Navigate } from 'react-router-dom';
+import SignIn from './Pages/SignIn';
+import GlobalStyles from './GlobalStyle';
+import SignUp from './Pages/SignUp';
+import Favorites from './Pages/Favorites';
 
 export const movieContext = createContext(null);
 
@@ -14,6 +15,7 @@ function App() {
   const [displayed, setDisplayed] = useState("top");
   const [current, setCurrent] = useState("");
   const [filter, setFilter] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     getMovies(setMovies);
@@ -25,33 +27,31 @@ function App() {
     box: box
   }
 
-
   return (
     <div className="App">
-      <header>
-        <movieContext.Provider value={{ set: setDisplayed, displayed: displayed }}>
-          <ComingBtn />
-        </movieContext.Provider>
-        <Search set={setFilter} />
-      </header>
-      <movieContext.Provider value={{ current: current, setCurrent: setCurrent }}>
-        <Details />
-      </movieContext.Provider>
-      <movieContext.Provider value={{ movies: filterMovies(movieLists[displayed], filter), displayed: displayed, setCurrent: setCurrent }}>
-        <MovieGrid />
-      </movieContext.Provider>
-    </div>
+      <GlobalStyles />
+      <movieContext.Provider value={{ movies: filterMovies(movieLists[displayed], filter), displayed, setDisplayed, setCurrent, current, setFilter, user, setUser }}>
+        <Routes>
+          <Route path='/'>
+            <Route index element={<Home />}></Route>
+            <Route path='favorites' element={<Favorites />}></Route>
+            <Route path='signIn' element={<SignIn />}></Route>
+            <Route path='signUp' element={<SignUp />}></Route>
+          </Route>
+        </Routes>
+      </movieContext.Provider >
+    </div >
   );
 }
 
 const getMovies = (set) => {
-  fetch("https://imdb-api.com/en/API/Top250Movies/k_zg2hsr14")
+  fetch("https://imdb-api.com/en/API/Top250Movies/k_4ut5ce61")
     .then((response) => response.json())
     .then(data => set(data.items))
     .catch((err) => console.log(err));
 }
 const getBox = (set) => {
-  fetch("https://imdb-api.com/en/API/BoxOffice/k_zg2hsr14")
+  fetch("https://imdb-api.com/en/API/ComingSoon/k_4ut5ce61")
     .then((response) => response.json())
     .then(data => set(data.items))
     .catch((err) => console.log(err));

@@ -10,14 +10,12 @@ const StyledBtn = styled.button`
   padding: 0 16px;
   font-size: 16px;
   cursor: pointer;
-  position: absolute;
-  left: 1%;
 `;
 
 const ComingBtn = () => {
-  const { set, displayed } = useContext(movieContext);
+  const { setDisplayed, displayed } = useContext(movieContext);
   return (
-    <StyledBtn onClick={() => (displayed === "top" ? set("box") : set("top"))}>
+    <StyledBtn onClick={() => (displayed === "top" ? setDisplayed("box") : setDisplayed("top"))}>
       Coming soon...
     </StyledBtn>
   );

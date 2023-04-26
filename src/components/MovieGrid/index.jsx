@@ -1,7 +1,10 @@
-import React, { useContext } from "react";
 import Movie from "../Movie";
-import { movieContext } from "../../App";
 import styled from "styled-components";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { useContext } from "react";
+import { movieContext } from "../../App";
+import Firebase from "../../gateway/Firebase";
+import { async } from "@firebase/util";
 
 const Grid = styled.div`
   display: grid;
@@ -11,8 +14,9 @@ const Grid = styled.div`
   margin: 0 0 5% 5%;
 `;
 
-const MovieGrid = () => {
-  const { movies, displayed, setCurrent } = useContext(movieContext);
+const MovieGrid = ({ movies, displayed, setCurrent, isFavorites }) => {
+  const { user } = useContext(movieContext);
+
   return (
     <Grid>
       {movies.map((e) => (
@@ -27,10 +31,20 @@ const MovieGrid = () => {
           weeks={e.weeks}
           box={displayed === "box"}
           onClick={() => setCurrent(e.id)}
+          addFavorite={() => addFavorite(e, user)}
+          isFavorites={isFavorites}
         />
       ))}
     </Grid>
   );
 };
+
+const addFavorite = async (movie, user) => {
+  const favoriteRef = doc(
+    collection(Firebase.firestore, "users", user.uid, "favorites"),
+    movie.id
+  )
+  await setDoc(favoriteRef, movie);
+}
 
 export default MovieGrid;

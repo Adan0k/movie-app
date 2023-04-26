@@ -11,13 +11,14 @@ const Container = styled.div`
   position: relative;
   background-color: #373b69;
   box-sizing: border-box;
-
   overflow: hidden;
+
   & img {
     width: 100%;
     height: 100%;
   }
   & .imgLayer {
+    cursor: pointer;
     width: 100%;
   }
 `;
@@ -67,13 +68,17 @@ const InfoDrawer = styled.div`
       margin: 10px 0 1px 0;
     }
   }
+  & .favorite{
+    display: ${props => props.favorite ? "none" : "block"};
+    position: absolute;
+    top: 0;
+    right: 10%
+  }
 `;
 
-const Movie = ({ img, name, rating, rank, crew, gross, weekend, weeks, box, onClick }) => {
+const Movie = ({ img, name, rating, rank, crew, gross, weekend, weeks, box, onClick, addFavorite, isFavorite }) => {
   const [drawerVisibility, setDrawerVisibility] = useState({});
   useEffect(() => closeDrawer(setDrawerVisibility), []);
-
-  console.log(box);
 
   let InfoDrawerContent = <ul>
     <li>
@@ -109,10 +114,10 @@ const Movie = ({ img, name, rating, rank, crew, gross, weekend, weeks, box, onCl
     <div
       onMouseOver={() => openDrawer(setDrawerVisibility)}
       onMouseOut={() => closeDrawer(setDrawerVisibility)}
-      onClick={onClick}
     >
       <Container>
-        <div className="imgLayer">
+        <button favorite={isFavorite} className="favorite" onClick={() => addFavorite()}>add to favorites</button>
+        <div onClick={onClick} className="imgLayer">
           <img src={img} />
         </div>
         <Info rate={rateColor(rating)}>
